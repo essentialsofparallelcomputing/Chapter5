@@ -1,0 +1,15 @@
+[submodule "CLAMR"]
+	path = CLAMR
+	url = https://github.com/lanl/CLAMR.git
+[submodule "PerfectHash"]
+	path = PerfectHash
+	url = https://github.com/lanl/PerfectHash.git
+[submodule "CompactHash"]
+	path = CompactHash
+	url = http://github.com/lanl/CompactHash.git
+[submodule "CompactHashRemap"]
+	path = CompactHashRemap
+	url = http://github.com/lanl/CompactHashRemap.git
+[submodule "GlobalSums"]
+	path = GlobalSums
+	url = https://github.com/lanl/GlobalSums.git
