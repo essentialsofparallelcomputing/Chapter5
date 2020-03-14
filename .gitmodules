@@ -10,3 +10,6 @@
 [submodule "GlobalSums"]
 	path = GlobalSums
 	url = https://github.com/lanl/GlobalSums.git
+[submodule "CompactHashRemap"]
+	path = CompactHashRemap
+	url = http://github.com/lanl/CompactHashRemap.git
