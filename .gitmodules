@@ -10,3 +10,6 @@
 [submodule "GlobalSums"]
 	path = GlobalSums
 	url = https://github.com/lanl/GlobalSums.git
+[submodule "PerfectHash"]
+	path = PerfectHash
+	url = https://github.com/lanl/PerfectHash.git
