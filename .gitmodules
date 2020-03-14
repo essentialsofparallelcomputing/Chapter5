@@ -1,9 +1,6 @@
 [submodule "CLAMR"]
 	path = CLAMR
 	url = https://github.com/lanl/CLAMR.git
-[submodule "PerfectHash"]
-	path = PerfectHash
-	url = https://github.com/lanl/PerfectHash.git
 [submodule "CompactHash"]
 	path = CompactHash
 	url = http://github.com/lanl/CompactHash.git
