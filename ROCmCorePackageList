@@ -1,0 +1,113 @@
+Information derived from https://rocm.github.io/install.html#installing-from-amd-rocm-repositories
+
+ROCm documentation https://readthedocs.org/projects/rocm-documentation/downloads/pdf/latest/
+
+ROCm is only supported on Linux distributions -- not MacOS or Windows
+
+rocm-dkms -- primary meta-package
+ |-- rock-dkms - kernel driver
+ \-- rocm-dev - development meta-package
+      |--hsa-rocr-dev
+      |--hsa-ext-rocr-dev
+      |--hsakmt-roct
+      |--hsakmt-roct-dev
+      |--rocm-cmake
+      |--rocm-device-libs
+      |--hcc
+      |--hip_base
+      |--hip_doc
+      |--hip_hcc
+      |--hip_samples
+      |--rocm-smi
+      |--hsa-amd-aqlprofile
+      |--comgr
+      |--rocr_debug_agent
+      |--rocm-utils
+          |-- rocminfo
+          \-- rocm-clang-ocl # This will cause OpenCL to be installed
+
+For just OpenCL -- rock-dkms, rocm-opencl, rocm-opencl-dev
+sudo apt-get install dkms rock-dkms rocm-opencl-dev
+
+For systems without an AMD GPU
+sudo apt install rocm-dev
+
+rocm-utils -- meta-package
+  |-- rocminfo
+  \-- rocm-clang-ocl # This will cause OpenCL to be installed
+
+rocm-libs -- meta-package
+|--rocalution
+ |--hipblas
+ |-- rocblas
+ |-- rocfft
+ |-- rocrand
+ |--hipsparse
+ \-- rocsparse
+
+Full package lists
+
+ROCm Core Components
+
+ROCk Kernel Driver: rock-dkms
+ROCr Runtime: hsa-rocr-dev, hsa-ext-rocr-dev
+ROCt Thunk Interface: hsakmt-roct, hsakmt-roct-dev
+
+
+ROCm Support Software
+
+ROCm SMI: rocm-smi
+ROCm cmake: rocm-cmake
+rocminfo: rocminfo
+ROCm Bandwidth Test: rocm_bandwidth_test
+
+
+ROCm Development Tools
+
+HCC compiler: hcc
+HIP: hip_base, hip_doc, hip_hcc, hip_samples
+ROCm Device Libraries: rocm-device-libs
+ROCm OpenCL: rocm-opencl, rocm-opencl-devel (on RHEL/CentOS), rocm-opencl-dev (on Ubuntu)
+ROCM Clang-OCL Kernel Compiler: rocm-clang-ocl
+Asynchronous Task and Memory Interface (ATMI): atmi
+ROCr Debug Agent: rocr_debug_agent
+ROCm Code Object Manager: comgr
+ROC Profiler: rocprofiler-dev
+ROC Tracer: roctracer-dev
+Radeon Compute Profiler: rocm-profiler
+
+
+ROCm Libraries
+
+rocALUTION rocalution
+rocBLAS: rocblas
+hipBLAS: hipblas
+hipCUB: hipCUB
+rocFFT: rocfft
+rocRAND: rocrand
+rocSPARSE: rocsparse
+hipSPARSE: hipsparse
+ROCm SMI Lib: rocm_smi_lib64
+rocThrust: rocThrust
+MIOpen: MIOpen-HIP (for the HIP version), MIOpen-OpenCL (for the OpenCL version)
+MIOpenGEMM: miopengemm
+RCCL: rccl
+MIVisionX: mivisionx
+
+
+Post Install
+usermod -aG video ${USERNAME}
+
+
+To add any future users
+echo 'ADD_EXTRA_GROUPS=1' | sudo tee -a /etc/adduser.conf
+echo 'EXTRA_GROUPS=video' | sudo tee -a /etc/adduser.conf
+
+Add /opt/rocm/bin and /opt/rocm/opencl/bin/x86_64 to path.
+export PATH=$PATH:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
+or system-wide
+echo 'export PATH=$PATH:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64' | sudo tee -a /etc/profile.d/rocm.sh
+
+Run the following to check install
+/opt/rocm/bin/rocminfo 
+/opt/rocm/opencl/bin/x86_64/clinfo 
