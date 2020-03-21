@@ -86,7 +86,8 @@ RUN usermod -a -G video chapter5
 WORKDIR /home/chapter5
 RUN chown -R chapter5:chapter5 /home/chapter5
 USER chapter5
-ENV LOGNAME=chapter5 # needed? rocminfo still fails on Mac
+# needed? rocminfo still fails on Mac
+ENV LOGNAME=chapter5 
 ENV PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
 ENV PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
 ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
