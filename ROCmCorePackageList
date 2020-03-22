@@ -3,6 +3,9 @@ Information derived from https://rocm.github.io/install.html#installing-from-amd
 ROCm documentation https://readthedocs.org/projects/rocm-documentation/downloads/pdf/latest/
 
 ROCm is only supported on Linux distributions -- not MacOS or Windows
+  For Docker containers, the ROCm kernel and corresponding modules must
+  be installed on the host machine. Because of this you will not be able to
+  fully use the GPU on MacOS or Windows
 
 rocm-dkms -- primary meta-package
  |-- rock-dkms - kernel driver

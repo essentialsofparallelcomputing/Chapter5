@@ -1,7 +1,7 @@
 FROM ubuntu:18.04 AS builder
 WORKDIR /project
 RUN apt-get update && \
-    apt-get install -y cmake git vim gcc g++ software-properties-common python3 wget gnupg-agent && \
+    apt-get install -y cmake git vim gcc g++ gfortran software-properties-common python3 wget gnupg-agent && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -24,14 +24,17 @@ RUN apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
 RUN rm -f GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
 RUN echo "deb https://apt.repos.intel.com/oneapi all main" >> /etc/apt/sources.list.d/oneAPI.list
 RUN echo "deb [trusted=yes arch=amd64] https://repositories.intel.com/graphics/ubuntu bionic main" >> /etc/apt/sources.list.d/intel-graphics.list
-RUN apt-get update && \
-    apt-get install -y intel-basekit intel-hpckit && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
 
-# Intel OpenCL
 RUN apt-get update && \
-    apt-get install -y intel-opencl && \
+     apt-get install -y \
+             intel-basekit-getting-started \
+             intel-hpckit-getting-started \
+             intel-oneapi-common-vars \
+             intel-oneapi-common-licensing \
+             intel-oneapi-dev-utilities \
+             intel-oneapi-icc \
+             intel-oneapi-ifort \
+             intel-opencl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -68,26 +71,19 @@ RUN apt-get update && \
 
 # Vendor OpenCL
 RUN apt-get update && \
-    apt-get install -y beignet-opencl-icd mesa-opencl-icd && \
+    apt-get install -y mesa-opencl-icd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-#RUN apt-get update && \
-#    apt-get install -y beignet-opencl-icd mesa-opencl-icd nvidia-opencl-icd-304 \
-#            nvidia-opencl-icd-304-updates nvidia-opencl-icd-340 nvidia-opencl-icd-361 nvidia-opencl-icd-384
 
 SHELL ["/bin/bash", "-c"]
 
 RUN groupadd chapter5 && useradd -m -s /bin/bash -g chapter5 chapter5
 
-#usermod -a -G video $USERNAME
 RUN usermod -a -G video chapter5
 
 WORKDIR /home/chapter5
 RUN chown -R chapter5:chapter5 /home/chapter5
 USER chapter5
-# needed? rocminfo still fails on Mac
-ENV LOGNAME=chapter5 
 ENV PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
 ENV PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
 ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
@@ -96,6 +92,6 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/intel/inteloneapi/compiler/2021.1-be
 RUN git clone --recursive https://github.com/essentialsofparallelcomputing/Chapter5.git
 
 WORKDIR /home/chapter5/Chapter5
-#RUN make
+RUN make
 
 ENTRYPOINT ["bash"]

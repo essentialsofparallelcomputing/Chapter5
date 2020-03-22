@@ -1,23 +1,23 @@
-All: PerfectHash CompactHash GlobalSums #CompactHashRemap
+All: PerfectHash CompactHash GlobalSums CompactHashRemap
 
-PerfectHash: Perfecthash/neigh2d
+PerfectHash: Perfecthash/Makefile
 
-Perfecthash/neigh2d:
-	cd PerfectHash; ./configure; make; #./neigh2d
+Perfecthash/Makefile:
+	cd PerfectHash; ./configure; #make; #./neigh2d
 
-CompactHash: CompactHash/neigh2d
+CompactHash: CompactHash/Makefile
 
-CompactHash/neigh2d:
-	cd CompactHash; cmake .; make
+CompactHash/Makefile:
+	cd CompactHash; cmake .; #make
 
-CompactHashRemap: CompactHashRemap/neigh2d
+CompactHashRemap: CompactHashRemap/Makefile
 
-CompactHashRemap/neigh2d:
-	cd CompactHashRemap; cmake .; make
+CompactHashRemap/Makefile:
+	cd CompactHashRemap; cmake .; #make
 
-GlobalSums: GlobalSums/neigh2d
+GlobalSums: GlobalSums/globalsums
 
-GlobalSums/neigh2d:
+GlobalSums/globalsums:
 	cd GlobalSums; cmake .; make
 
 clean:
