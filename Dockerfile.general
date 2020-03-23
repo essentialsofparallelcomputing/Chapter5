@@ -1,6 +1,5 @@
 FROM ubuntu:18.04 AS builder
 WORKDIR /project
-ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y cmake git vim gcc g++ gfortran software-properties-common python3 wget gnupg-agent && \
     apt-get clean && \
@@ -28,7 +27,7 @@ RUN echo "deb [trusted=yes arch=amd64] https://repositories.intel.com/graphics/u
 
 RUN apt-get update && \
      apt-get install -y \
-             intel-basekit-getting-started \
+             intel-basekit-getting-started
              intel-hpckit-getting-started \
              intel-oneapi-common-vars \
              intel-oneapi-common-licensing \
@@ -38,6 +37,17 @@ RUN apt-get update && \
              intel-opencl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+#RUN apt-get update && \
+#    apt-get install -y intel-basekit intel-hpckit && \
+#    apt-get clean && \
+#    rm -rf /var/lib/apt/lists/*
+
+# Intel OpenCL
+#RUN apt-get update && \
+#    apt-get install -y intel-opencl && \
+#    apt-get clean && \
+#    rm -rf /var/lib/apt/lists/*
 
 # Generic OpenCL Loader
 RUN apt-get update && \
@@ -50,8 +60,10 @@ RUN apt-get update && \
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-RUN apt-get update && apt-get install -y cuda-drivers nvidia-opencl-dev && \
+RUN apt-get update && apt-get install -y cuda nvidia-opencl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -70,19 +82,27 @@ RUN apt-get update && \
 
 # Vendor OpenCL
 RUN apt-get update && \
+    #apt-get install -y beignet-opencl-icd mesa-opencl-icd && \
     apt-get install -y mesa-opencl-icd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+#RUN apt-get update && \
+#    apt-get install -y beignet-opencl-icd mesa-opencl-icd nvidia-opencl-icd-304 \
+#            nvidia-opencl-icd-304-updates nvidia-opencl-icd-340 nvidia-opencl-icd-361 nvidia-opencl-icd-384
 
 SHELL ["/bin/bash", "-c"]
 
 RUN groupadd chapter5 && useradd -m -s /bin/bash -g chapter5 chapter5
 
+#usermod -a -G video $USERNAME
 RUN usermod -a -G video chapter5
 
 WORKDIR /home/chapter5
 RUN chown -R chapter5:chapter5 /home/chapter5
 USER chapter5
+# needed? rocminfo still fails on Mac
+ENV LOGNAME=chapter5 
 ENV PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
 ENV PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
 ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}

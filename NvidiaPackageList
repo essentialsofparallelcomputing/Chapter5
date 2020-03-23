@@ -2,10 +2,129 @@
 # cuda                          Installs all CUDA Toolkit and Driver packages. Handles upgrading to the next version of the cuda package when it's released.
 # cuda-10-2                     Installs all CUDA Toolkit and Driver packages. Remains at version 10.2 until an additional version of CUDA is installed.
 # cuda-toolkit-10-2             Installs all CUDA Toolkit packages required to develop CUDA applications. Does not include the driver.
-# cuda-tools-10-2               Installs all CUDA command line and visual tools.
-# cuda-runtime-10-2             Installs all CUDA Toolkit packages required to run CUDA applications, as well as the Driver packages.
-# cuda-compiler-10-2            Installs all CUDA compiler packages.
-# cuda-libraries-10-2           Installs all runtime CUDA Library packages.
-# cuda-libraries-dev-10-2       Installs all development CUDA Library packages.
-# cuda-drivers                  Installs all Driver packages. Handles upgrading to the next version of the Driver packages when they're released.
+     cuda-license-10-2
+     cuda-compiler-10-2 -- meta-package
+     cuda-samples-10-2
+     cuda-documentation-10-2
+     cuda-libraries-10-2 -- meta-package
+     cuda-libraries-dev-10-2 -- meta-package
+     cuda-nvvp-10-2
+     cuda-visual-tools-10-2
+     cuda-tools-10-2 -- meta-package
 
+# cuda-tools-10-2               Installs all CUDA command line and visual tools.
+     cuda-license-10-2
+     cuda-nvdisasm-10-2
+     cuda-cuobjdump-10-2
+     cuda-gdb-10-2
+     cuda-nvprof-10-2
+     cuda-sanitizer-api-10-2
+     cuda-memcheck-10-2
+     cuda-cudart-10-2
+     cuda-driver-dev-10-2
+     cuda-cudart-dev-10-2
+     cuda-misc-headers-10-2
+     cuda-nvcc-10-2
+     cuda-cupti-10-2
+     cuda-cupti-dev-10-2
+     cuda-nvtx-10-2
+     cuda-command-line-tools-10-2
+     cuda-cufft-10-2
+     cuda-cufft-dev-10-2
+     cuda-curand-10-2
+     cuda-curand-dev-10-2
+     cuda-cusolver-10-2
+     cuda-cusolver-dev-10-2
+     cuda-cusparse-10-2
+     cuda-cusparse-dev-10-2
+     cuda-npp-10-2
+     cuda-npp-dev-10-2
+     cuda-nsight-10-2
+     nsight-compute-2019.5.0
+     cuda-nsight-compute-10-2
+     nsight-systems-2019.5.2
+     cuda-nsight-systems-10-2
+     cuda-nvgraph-10-2
+     cuda-nvgraph-dev-10-2
+     cuda-nvjpeg-10-2
+     cuda-nvjpeg-dev-10-2
+     cuda-nvml-dev-10-2
+     cuda-nvrtc-10-2
+     cuda-nvrtc-dev-10-2
+     cuda-nvvp-10-2
+     libcublas10
+     libcublas-dev
+     cuda-visual-tools-10-2
+
+# cuda-runtime-10-2             Installs all CUDA Toolkit packages required to run CUDA applications, as well as the Driver packages.
+     cuda-license-10-2
+     cuda-drivers -- meta-package
+     cuda-libraries-10-2 -- meta-package
+
+# cuda-compiler-10-2            Installs all CUDA compiler packages.
+     cuda-license-10-2
+     cuda-misc-headers-10-2
+     cuda-nvcc-10-2
+     cuda-cuobjdump-10-2
+     cuda-nvprune-10-2
+
+# cuda-libraries-10-2           Installs all runtime CUDA Library packages.
+     cuda-license-10-2
+     cuda-cudart-10-2
+     cuda-cufft-10-2
+     cuda-curand-10-2
+     cuda-cusolver-10-2
+     cuda-cusparse-10-2
+     cuda-nvrtc-10-2
+     cuda-nvgraph-10-2
+     cuda-nvjpeg-10-2
+     libcublas10
+     cuda-npp-10-2
+
+# cuda-libraries-dev-10-2       Installs all development CUDA Library packages.
+     cuda-license-10-2
+     cuda-cudart-10-2
+     cuda-driver-dev-10-2
+     cuda-cudart-dev-10-2
+     cuda-cufft-10-2
+     cuda-cufft-dev-10-2
+     cuda-curand-10-2
+     cuda-curand-dev-10-2
+     cuda-cusolver-10-2
+     cuda-cusolver-dev-10-2
+     cuda-cusparse-10-2
+     cuda-cusparse-dev-10-2
+     cuda-nvrtc-10-2
+     cuda-nvrtc-dev-10-2
+     cuda-nvgraph-10-2
+     cuda-nvgraph-dev-10-2
+     cuda-nvjpeg-10-2
+     cuda-nvjpeg-dev-10-2
+     libcublas10
+     libcublas-dev
+     cuda-npp-10-2
+     cuda-npp-dev-10-2
+     cuda-misc-headers-10-2
+
+# cuda-drivers                  Installs all Driver packages. Handles upgrading to the next version of the Driver packages when they're released.
+     libnvidia-common-440
+     libnvidia-compute-440
+     libnvidia-decode-440
+     libnvidia-encode-440
+     libnvidia-fbc1-440
+     libnvidia-gl-440
+     libnvidia-ifr1-440
+     nvidia-compute-utils-440
+     nvidia-kernel-source-440
+     nvidia-kernel-common-440
+     nvidia-dkms-440
+     nvidia-utils-440
+     libnvidia-cfg1-440
+     xserver-xorg-video-nvidia-440
+     nvidia-driver-440
+     nvidia-modprobe
+     libxnvctrl0
+     nvidia-settings
+
+# nvidia-opencl-dev
+     libnvidia-compute-440
