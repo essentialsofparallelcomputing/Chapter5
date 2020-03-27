@@ -1,5 +1,5 @@
 # Chapter 5 Parallel algorithms and patterns
-This is from Chapter 5 of the Parallel and High Performance Computing, Robey and Zamora,
+This is from Chapter 5 of Parallel and High Performance Computing, Robey and Zamora,
 Manning Publications, available at http://manning.com
 
 The book may be obtained at

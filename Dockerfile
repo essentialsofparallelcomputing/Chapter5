@@ -1,9 +1,9 @@
 FROM ubuntu:18.04 AS builder
 WORKDIR /project
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get install -y cmake git vim gcc g++ gfortran software-properties-common \
-            python3 wget gnupg-agent && \
+RUN apt-get update -q && \
+    apt-get install -q -y cmake git vim gcc g++ gfortran software-properties-common \
+            python3 wget gnupg-agent \
             mpich libmpich-dev \
             openmpi-bin openmpi-doc libopenmpi-dev && \
     apt-get clean && \
@@ -11,8 +11,8 @@ RUN apt-get update && \
 
 # Installing latest GCC compiler (version 8) for latest compatible with CUDA
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
-RUN apt-get update && \
-    apt-get install -y gcc-8 g++-8 gfortran-8 && \
+RUN apt-get update -q && \
+    apt-get install -q -y gcc-8 g++-8 gfortran-8 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -29,8 +29,8 @@ RUN rm -f GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
 RUN echo "deb https://apt.repos.intel.com/oneapi all main" >> /etc/apt/sources.list.d/oneAPI.list
 RUN echo "deb [trusted=yes arch=amd64] https://repositories.intel.com/graphics/ubuntu bionic main" >> /etc/apt/sources.list.d/intel-graphics.list
 
-RUN apt-get update && \
-     apt-get install -y \
+RUN apt-get update -q && \
+     apt-get install -q -y \
              intel-basekit-getting-started \
              intel-hpckit-getting-started \
              intel-oneapi-common-vars \
@@ -43,9 +43,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Generic OpenCL Loader
-RUN apt-get update && \
-    #apt-get install -y clinfo ocl-icd-libopencl1 ocl-icd opencl-headers && \
-    apt-get install -y clinfo ocl-icd-libopencl1 ocl-icd-* opencl-headers && \
+RUN apt-get update -q && \
+    #apt-get install -q -y clinfo ocl-icd-libopencl1 ocl-icd opencl-headers && \
+    apt-get install -q -y clinfo ocl-icd-libopencl1 ocl-icd-* opencl-headers && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -54,26 +54,27 @@ RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/
 RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-RUN apt-get update && apt-get install -y cuda-drivers nvidia-opencl-dev && \
+RUN apt-get update -q && \
+    apt-get install -q -y cuda-drivers nvidia-opencl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # ROCm software installation
-RUN apt-get update && \
-    apt-get install -y libnuma-dev && \
+RUN apt-get update -q && \
+    apt-get install -q -y libnuma-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 RUN wget -qO - http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | apt-key add -
 RUN echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main' >> /etc/apt/sources.list.d/rocm.list
-RUN apt-get update && \
-    apt-get install -y rocm-opencl-dev rocm-dkms && \
+RUN apt-get update -q && \
+    apt-get install -q -y rocm-opencl-dev rocm-dkms && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Vendor OpenCL
-RUN apt-get update && \
-    apt-get install -y mesa-opencl-icd && \
+RUN apt-get update -q && \
+    apt-get install -q -y mesa-opencl-icd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
