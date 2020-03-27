@@ -2,7 +2,10 @@ FROM ubuntu:18.04 AS builder
 WORKDIR /project
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -y cmake git vim gcc g++ gfortran software-properties-common python3 wget gnupg-agent && \
+    apt-get install -y cmake git vim gcc g++ gfortran software-properties-common \
+            python3 wget gnupg-agent && \
+            mpich libmpich-dev \
+            openmpi-bin openmpi-doc libopenmpi-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -13,7 +16,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# We are installing both OpenMPI and MPICH. We can use the update-alternatives to switch between them
+# We can use the update-alternatives to switch between versions of the compiler
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 90\
                         --slave /usr/bin/g++ g++ /usr/bin/g++-8\
                         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-8\
