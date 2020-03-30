@@ -1,10 +1,13 @@
 # This docker build sets up the following software
-#    GCC, G++, GFortran 8.0 compilers
+#    GCC, G++, GFortran 8.0 and 9.0 compilers (default 8)
 #    Intel C, C++, and Fortran compilers
 #    Intel OpenCL
 #    Nvidia OpenCL
 #    AMD ROCm OpenCL
 #    OpenMPI and MPICH
+# You can switch between versions of the gcc compiler in
+# the docker container with
+     update-alternatives --config gcc
 
 # To run the example in docker, do the following
 

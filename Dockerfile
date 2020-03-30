@@ -12,15 +12,23 @@ RUN apt-get update -q && \
 # Installing latest GCC compiler (version 8) for latest compatible with CUDA
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update -q && \
-    apt-get install -q -y gcc-8 g++-8 gfortran-8 && \
+    apt-get install -q -y gcc-8 g++-8 gfortran-8 \
+                          gcc-9 g++-9 gfortran-9 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# We can use the update-alternatives to switch between versions of the compiler
+# We can use the update-alternatives to switch between compiler versions
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 90\
                         --slave /usr/bin/g++ g++ /usr/bin/g++-8\
                         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-8\
                         --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 80\
+                        --slave /usr/bin/g++ g++ /usr/bin/g++-9\
+                        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-9\
+                        --slave /usr/bin/gcov gcov /usr/bin/gcov-9
+
+RUN chmod u+s /usr/bin/update-alternatives
 
 # Intel graphics software for computation
 RUN wget -q https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
