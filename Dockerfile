@@ -1,8 +1,8 @@
 FROM ubuntu:18.04 AS builder
 WORKDIR /project
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update -q && \
-    apt-get install -q -y cmake git vim gcc g++ gfortran software-properties-common \
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get -qq update && \
+    apt-get -qq install -y cmake git vim gcc g++ gfortran software-properties-common \
             python3 wget gnupg-agent \
             mpich libmpich-dev \
             openmpi-bin openmpi-doc libopenmpi-dev && \
@@ -11,9 +11,10 @@ RUN apt-get update -q && \
 
 # Installing latest GCC compiler (version 8) for latest compatible with CUDA
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
-RUN apt-get update -q && \
-    apt-get install -q -y gcc-8 g++-8 gfortran-8 \
-                          gcc-9 g++-9 gfortran-9 && \
+RUN apt-get -qq update && \
+    apt-get -qq install -y gcc-8 g++-8 gfortran-8 \
+                           gcc-9 g++-9 gfortran-9 \
+                           gcc-10 g++-10 gfortran-10 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -28,6 +29,11 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 80\
                         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-9\
                         --slave /usr/bin/gcov gcov /usr/bin/gcov-9
 
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 70\
+                        --slave /usr/bin/g++ g++ /usr/bin/g++-10\
+                        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-10\
+                        --slave /usr/bin/gcov gcov /usr/bin/gcov-10
+
 RUN chmod u+s /usr/bin/update-alternatives
 
 # Intel graphics software for computation
@@ -37,8 +43,8 @@ RUN rm -f GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
 RUN echo "deb https://apt.repos.intel.com/oneapi all main" >> /etc/apt/sources.list.d/oneAPI.list
 RUN echo "deb [trusted=yes arch=amd64] https://repositories.intel.com/graphics/ubuntu bionic main" >> /etc/apt/sources.list.d/intel-graphics.list
 
-RUN apt-get update -q && \
-     apt-get install -q -y \
+RUN apt-get -qq update && \
+    apt-get -qq install -y \
              intel-basekit-getting-started \
              intel-hpckit-getting-started \
              intel-oneapi-common-vars \
@@ -51,25 +57,31 @@ RUN apt-get update -q && \
     rm -rf /var/lib/apt/lists/*
 
 # Generic OpenCL Loader
-RUN apt-get update -q && \
-    #apt-get install -q -y clinfo ocl-icd-libopencl1 ocl-icd opencl-headers && \
-    apt-get install -q -y clinfo ocl-icd-libopencl1 ocl-icd-* opencl-headers && \
+RUN apt-get -qq update && \
+    #apt-get -qq install -y clinfo ocl-icd-libopencl1 ocl-icd opencl-headers && \
+    apt-get -qq install -y clinfo ocl-icd-libopencl1 ocl-icd-* opencl-headers && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Nvidia GPU software for computation
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
-RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
-
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-RUN apt-get update -q && \
-    apt-get install -q -y cuda-drivers nvidia-opencl-dev && \
+RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
+RUN apt-get -q update && \
+    apt-get -q install -y cuda-toolkit-10-2 cuda-tools-10-2 cuda-compiler-10-2 \
+        cuda-libraries-10-2 cuda-libraries-dev-10-2 libnvidia-compute-450 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804-11-0-local_11.0.1-450.36.06-1_amd64.deb
+#RUN dpkg -i cuda-repo-ubuntu1804-11-0-local_11.0.1-450.36.06-1_amd64.deb
+#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
+#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-11-0_11.0.1-1_amd64.deb
+#RUN dpkg -i cuda-11-0_11.0.1-1_amd64.deb
+
 # ROCm software installation
-RUN apt-get update -q && \
-    apt-get install -q -y libnuma-dev && \
+RUN apt-get -qq update && \
+    apt-get -qq install -y libnuma-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -81,8 +93,8 @@ RUN apt-get update -q && \
     rm -rf /var/lib/apt/lists/*
 
 # Vendor OpenCL
-RUN apt-get update -q && \
-    apt-get install -q -y mesa-opencl-icd && \
+RUN apt-get -qq update && \
+    apt-get -qq install -y mesa-opencl-icd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
