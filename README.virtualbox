@@ -4,7 +4,7 @@
 
 # Download VirtualBox and install
 
-# Download Ubuntu desktop install and save on local disk [ubuntu-18.04.2-desktop-amd64.iso]
+# Download Ubuntu desktop install and save on local disk [ubuntu-20.04-desktop-amd64.iso]
 # Download VBoxGuestAdditions.iso
 # On Mac already at /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso
 
@@ -15,7 +15,7 @@
 
 # click through whats new
 
-# select dots at bottom left and terminal
+# select dots at bottom left and start up a terminal
 
 # Reboot to get cut and paste and screen size fixed
 
@@ -41,7 +41,6 @@ sudo apt-get clean && \
 sudo rm -rf /var/lib/apt/lists/*
 
 # Installing latest GCC compiler (version 8) for best vectorization
-sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt-get -qq update && \
 sudo apt-get -qq install -y gcc-8 g++-8 gfortran-8 \
                             gcc-9 g++-9 gfortran-9 \
@@ -122,6 +121,7 @@ sudo rm -rf /var/lib/apt/lists/*
 PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
 PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
 LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/intel/inteloneapi/compiler/2021.1-beta04/linux/compiler/lib/inte
 
 git clone --recursive https://github.com/essentialsofparallelcomputing/Chapter5.git
+
+cd Chapter5; #make

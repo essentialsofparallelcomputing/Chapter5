@@ -67,8 +67,8 @@ RUN apt-get -qq update && \
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
-RUN apt-get -q update && \
-    apt-get -q install -y cuda-toolkit-10-2 cuda-tools-10-2 cuda-compiler-10-2 \
+RUN apt-get -qq update && \
+    apt-get -qq install -y cuda-toolkit-10-2 cuda-tools-10-2 cuda-compiler-10-2 \
         cuda-libraries-10-2 cuda-libraries-dev-10-2 libnvidia-compute-450 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -99,6 +99,9 @@ RUN apt-get -qq update && \
     rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-c"]
+ENV PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
+ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+ENV PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
 
 RUN groupadd chapter5 && useradd -m -s /bin/bash -g chapter5 chapter5
 

@@ -10,6 +10,20 @@ RUN apt-get -qq update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Installing latest GCC compiler (version 10) for best vectorization
+RUN apt-get -qq update && \
+    apt-get -qq install -y gcc-8 g++-8 gfortran-8 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# We can use the update-alternatives to switch between compiler versions
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 90\
+                        --slave /usr/bin/g++ g++ /usr/bin/g++-8\
+                        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-8\
+                        --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN chmod u+s /usr/bin/update-alternatives
+
 # Intel graphics software for computation
 RUN wget -q https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
 RUN apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB
@@ -46,8 +60,8 @@ RUN apt-get -qq update && \
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
-RUN apt-get -q update && \
-    apt-get -q install -y cuda-toolkit-10-2 cuda-tools-10-2 cuda-compiler-10-2 \
+RUN apt-get -qq update && \
+    apt-get -qq install -y cuda-toolkit-10-2 cuda-tools-10-2 cuda-compiler-10-2 \
         cuda-libraries-10-2 cuda-libraries-dev-10-2 libnvidia-compute-450 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
