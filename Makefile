@@ -1,9 +1,7 @@
-All: PerfectHash CompactHash GlobalSums CompactHashRemap Scan
+All: Makefile.OpenCL CompactHash GlobalSums CompactHashRemap Scan
 
-PerfectHash: Perfecthash/Makefile
-
-Perfecthash/Makefile:
-	cd PerfectHash && ./configure && make && ./neigh2d
+Makefile.OpenCL:
+	#make -f Makefile.OpenCL
 
 CompactHash: CompactHash/Makefile
 
