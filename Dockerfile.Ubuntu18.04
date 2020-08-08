@@ -1,15 +1,17 @@
-FROM debian:buster
+FROM ubuntu:18.04 AS builder
 WORKDIR /project
 ENV DEBIAN_FRONTEND=noninteractive
-RUN sed -i "/^deb/s/main/main non-free/" /etc/apt/sources.list
 RUN apt-get -qq update && \
     apt-get -qq install -y cmake git vim gcc g++ gfortran software-properties-common \
-            python3 wget gnupg-agent alien \
+            python3 wget gnupg-agent \
             mpich libmpich-dev \
             openmpi-bin openmpi-doc libopenmpi-dev
 
 # Installing latest GCC compiler (version 8) for latest compatible with CUDA
-RUN apt-get -qq install -y gcc-8 g++-8 gfortran-8 \
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
+RUN apt-get -qq update && \
+    apt-get -qq install -y gcc-8 g++-8 gfortran-8 \
+                           gcc-9 g++-9 gfortran-9 \
                            gcc-10 g++-10 gfortran-10
 
 # We can use the update-alternatives to switch between compiler versions
@@ -17,6 +19,11 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 90\
                         --slave /usr/bin/g++ g++ /usr/bin/g++-8\
                         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-8\
                         --slave /usr/bin/gcov gcov /usr/bin/gcov-8
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 80\
+                        --slave /usr/bin/g++ g++ /usr/bin/g++-9\
+                        --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-9\
+                        --slave /usr/bin/gcov gcov /usr/bin/gcov-9
 
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 70\
                         --slave /usr/bin/g++ g++ /usr/bin/g++-10\
@@ -49,17 +56,18 @@ RUN apt-get -qq update && \
     #apt-get -qq install -y clinfo ocl-icd-libopencl1 ocl-icd opencl-headers && \
 
 # Nvidia GPU software for computation
-#RUN apt-get -qq update && \
-#    apt-get -qq install -y libxi6 libxi-dev libglu1-mesa libglu1-mesa-dev && \
-#    apt-get clean && \
-#    rm -rf /var/lib/apt/lists/*
-
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 RUN dpkg -i cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
 RUN apt-get -qq update && \
     apt-get -qq install -y cuda-toolkit-10-2 cuda-tools-10-2 cuda-compiler-10-2 \
         cuda-libraries-10-2 cuda-libraries-dev-10-2 libnvidia-compute-450
+
+#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804-11-0-local_11.0.1-450.36.06-1_amd64.deb
+#RUN dpkg -i cuda-repo-ubuntu1804-11-0-local_11.0.1-450.36.06-1_amd64.deb
+#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
+#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-11-0_11.0.1-1_amd64.deb
+#RUN dpkg -i cuda-11-0_11.0.1-1_amd64.deb
 
 # ROCm software installation
 RUN apt-get -qq update && \
