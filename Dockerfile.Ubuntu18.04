@@ -95,7 +95,9 @@ USER chapter5
 ENV PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
 ENV PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
 ENV LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/intel/inteloneapi/compiler/2021.1-beta04/linux/compiler/lib/intel64_lin:/opt/intel/inteloneapi/compiler/2021.1-beta04/linux/lib
+ENV PATH=${PATH}:/opt/intel/oneapi/advisor/2021.1-beta08/bin64
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/intel/oneapi/compiler/2021.1-beta08/linux/compiler/lib/intel64_lin
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/intel/oneapi/compiler/2021.1-beta08/linux/lib
 
 RUN git clone --recursive https://github.com/essentialsofparallelcomputing/Chapter5.git
 
