@@ -103,9 +103,8 @@ sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
 
 # If Software updater prompts, install updated software --> wait ....
 
-PATH=${PATH}:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin/x86_64
-PATH=/usr/local/cuda-10.2/bin:/usr/local/cuda-10.2/NsightCompute-2019.1${PATH:+:${PATH}}
-LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+source /opt/intel/oneapi/setvars.sh
+echo "source /opt/intel/oneapi/setvars.sh" >> ${HOME}/.bash_profile
 
 git clone --recursive https://github.com/essentialsofparallelcomputing/Chapter5.git
 
