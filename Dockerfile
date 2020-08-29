@@ -1,10 +1,10 @@
 # Part of the examples from the Parallel and High Performance Computing
 # Robey and Zamora, Manning Publications
-#   https://github.com/EssentialsofParallelComputing/Chapter4
+#   https://github.com/EssentialsofParallelComputing/Chapter5
 #
 # The built image can be found at:
 #
-#   https://hub.docker.com/r/essentialsofparallelcomputing/chapter4
+#   https://hub.docker.com/r/essentialsofparallelcomputing/chapter5
 #
 # Author:
 # Bob Robey <brobey@earthlink.net>
@@ -35,7 +35,8 @@ RUN apt-get -qq update && \
     apt-get -qq install -y cmake git vim gcc g++ gfortran software-properties-common \
             python3 wget gnupg-agent \
             mpich libmpich-dev \
-            openmpi-bin openmpi-doc libopenmpi-dev
+            openmpi-bin openmpi-doc libopenmpi-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Installing latest GCC compiler (version 10)
 RUN apt-get -qq update && \
