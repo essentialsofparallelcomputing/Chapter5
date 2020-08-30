@@ -1,7 +1,14 @@
-All: Makefile.OpenCL CompactHash GlobalSums # Scan
+All: Makefile.OpenCL PerfectHash CompactHash GlobalSums # Scan
+
+.PHONY: Makefile.OpenCL PerfectHash CompactHash GlobalSums # Scan
 
 Makefile.OpenCL:
 	#make -f Makefile.OpenCL
+
+PerfectHash: Perfecthash/Makefile
+
+Perfecthash/Makefile:
+	cd PerfectHash && ./configure --disable-opencl && make && ./neigh2d
 
 CompactHash: CompactHash/Makefile
 
