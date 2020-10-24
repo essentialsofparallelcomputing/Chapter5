@@ -47,7 +47,7 @@ ENV LC_ALL=$DOCKER_LANG.UTF-8
 RUN apt-get -qq update && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get -qq install -y cmake git vim gcc g++ gfortran software-properties-common \
-            python3 wget gnupg-agent xterm \
+            python3 wget gnupg-agent xterm pciutils \
             mpich libmpich-dev \
             openmpi-bin openmpi-doc libopenmpi-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/*

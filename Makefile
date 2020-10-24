@@ -8,7 +8,7 @@ Makefile.OpenCL:
 PerfectHash: Perfecthash/Makefile
 
 Perfecthash/Makefile:
-	cd PerfectHash && ./configure --disable-opencl && make && ./neigh2d
+	cd PerfectHash && cmake . && make && ./neigh2d
 
 CompactHash: CompactHash/Makefile
 
