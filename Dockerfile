@@ -110,7 +110,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility,graphics,display
 #             intel-oneapi-common-vars \
 #             intel-oneapi-common-licensing \
 #             intel-oneapi-dev-utilities \
-#             intel-oneapi-icc \
+#             intel-oneapi-dpcpp-cpp-compiler-pro \
 #             intel-oneapi-ifort \
 #             intel-opencl && \
 #    apt-get clean && rm -rf /var/lib/apt/lists/*
