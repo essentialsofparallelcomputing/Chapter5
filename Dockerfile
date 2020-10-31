@@ -122,11 +122,12 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility,graphics,display
 #    #apt-get -qq install -y clinfo ocl-icd-libopencl1 ocl-icd opencl-headers && \
 
 ## Nvidia GPU software for computation
-#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804-11-0-local_11.0.1-450.36.06-1_amd64.deb
-#RUN dpkg -i cuda-repo-ubuntu1804-11-0-local_11.0.1-450.36.06-1_amd64.deb
-#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.2.89-1_amd64.deb
-#RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-11-0_11.0.1-1_amd64.deb
-#RUN dpkg -i cuda-11-0_11.0.1-1_amd64.deb
+## See https://docs.nvidia.com/hpc-sdk/index.html for Nvidia install instructions
+#RUN wget --no-verbose https://developer.download.nvidia.com/hpc-sdk/20.9/nvhpc-20-9_20.9_amd64.deb
+#RUN wget --no-verbose https://developer.download.nvidia.com/hpc-sdk/20.9/nvhpc-2020_20.9_amd64.deb
+#RUN DEBIAN_FRONTEND=noninteractive \
+#    apt-get install -y ./nvhpc-20-9_20.9_amd64.deb ./nvhpc-2020_20.9_amd64.deb && \
+#    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ## ROCm software installation
 #RUN apt-get -qq update && \
